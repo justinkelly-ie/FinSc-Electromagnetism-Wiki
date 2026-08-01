@@ -1,0 +1,3 @@
+# GitHub Linguist Language Overrides
+generate_wiki.py linguist-documentation
+*.md linguist-language=Idris
