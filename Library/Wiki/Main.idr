@@ -1,53 +1,33 @@
-module Main
+module Wiki.Main
 
-import QuickCheck
-import Maxwell_Equations
-import Hodge_Decomposition
-import Coulomb_Potential
-import Gauge_Invariance
-import Photon_Dynamics
+import Wiki.ElectromagnetismSpec
+import Wiki.EMHomomorphismSpec
+import Reflect.Auditor.EM
+import System
 
 %default total
 
-partial
-runSuite : IO ()
-runSuite = do
-  putStrLn ""
-  putStrLn "--------------------------------------------------------"
-  putStrLn "-- Idris2-Electromagnetism-Wiki Test Suite            --"
-  putStrLn "--------------------------------------------------------"
-  putStrLn ""
+------------------------------------------------------------------------
+-- MAIN VERIFICATION SUITE EXECUTABLE
+------------------------------------------------------------------------
 
-  let r1 = quickCheck prop_gaussLawConstantPotential
-  putStrLn $ "prop_gaussLawConstantPotential: " ++ r1.msg
-
-  let r2 = quickCheck prop_faradayFlatPlaquette
-  putStrLn $ "prop_faradayFlatPlaquette: " ++ r2.msg
-
-  let r3 = quickCheck prop_hodgeVacuumOrthogonality
-  putStrLn $ "prop_hodgeVacuumOrthogonality: " ++ r3.msg
-
-  let r4 = quickCheck prop_hodgeReconstructionVacuum
-  putStrLn $ "prop_hodgeReconstructionVacuum: " ++ r4.msg
-
-  let r5 = quickCheck prop_vacuumLaplacianIsZero
-  putStrLn $ "prop_vacuumLaplacianIsZero: " ++ r5.msg
-
-  let r6 = quickCheck prop_laplacianSuperposition
-  putStrLn $ "prop_laplacianSuperposition: " ++ r6.msg
-
-  let r7 = quickCheck prop_vacuumGaugeIsometry
-  putStrLn $ "prop_vacuumGaugeIsometry: " ++ r7.msg
-
-  let r8 = quickCheck prop_gaugeVacuumPreservation
-  putStrLn $ "prop_gaugeVacuumPreservation: " ++ r8.msg
-
-  let r9 = quickCheck prop_nullDiagonalRedQuadrance
-  putStrLn $ "prop_nullDiagonalRedQuadrance: " ++ r9.msg
-
-  putStrLn ""
-  putStrLn "All Electromagnetism QuickCheck tests passed."
-
-partial
 main : IO ()
-main = runSuite
+main = do
+  putStrLn "=========================================================================="
+  putStrLn "   ⚡ IDRIS 2 DISCRETE ELECTROMAGNETISM WIKI VERIFICATION RUNNER ⚡"
+  putStrLn "=========================================================================="
+  putStrLn ""
+  putStrLn "--- PART 1: U(1) GAUGE INVARIANCE & DISCRETE MAXWELL CALCULUS AUDITS ---"
+  s1 <- runElectromagnetismSpecs
+  putStrLn ""
+  putStrLn "--- PART 2: CATEGORY-THEORETIC ELECTROMAGNETIC HOMOMORPHISM AUDITS ---"
+  s2 <- runEMHomomorphismSpecs
+  if s1 && s2
+     then do
+       putStrLn ""
+       putStrLn "=========================================================================="
+       putStrLn "   ✨ ALL DISCRETE ELECTROMAGNETISM SUITES PASSED WITH 100% TOTALITY! ✨"
+       putStrLn "=========================================================================="
+     else do
+       putStrLn "   -> FAIL: Electromagnetism verification check failed!"
+       exitWith (ExitFailure 1)
