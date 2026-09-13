@@ -23,7 +23,7 @@
 - **Algebra & Homomorphisms:** Exact rational Coulomb potential fields and discrete photon propagation invariants.
 
 ### 4. `Library/Wiki/Main.idr`
-- **Verification Runner:** Literate Idris 2 test runner executing compile-time `%macro` reflection proofs and QuickCheck property test suites for Layer 3c (`lem-wiki`).
+- **Verification Runner:** Literate Idris 2 test runner executing compile-time `%macro` reflection proofs and QuickCheck property test suites for Layer 3c (`em-wiki`).
 
 ---
 
@@ -33,7 +33,7 @@ To compile the literate verification suite and execute the test runner binary:
 
 ```bash
 idris2 --build Idris2-Electromagnetism-Wiki.ipkg
-./build/exec/lem-wiki
+./build/exec/em-wiki
 ```
 
 ---
