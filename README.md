@@ -1,41 +1,52 @@
-# ⚡ Idris2-Electromagnetism-Wiki
+# Idris2-Electromagnetism-Wiki
 
-**Layer 3c Electromagnetism & Discrete Exterior Calculus Executable Verification Wiki.**
+[![Idris 2 Verification](https://img.shields.io/badge/Idris_2-0.8.0-blue.svg)](https://www.idris-lang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[![Idris2](https://img.shields.io/badge/Idris2-Electromagnetism--Wiki-yellow.svg)](https://github.com/idris-lang/Idris2)
+**Literate Verification Suite & Specification Manual for Layer 3c (`Idris2-Electromagnetism`)**
 
----
-
-## 🏛️ Overview
-
-`Idris2-Electromagnetism-Wiki` provides executable verification and category-theoretic homomorphism specifications for **Constructive Discrete Electromagnetism**.
-
-### Literate Verification Chapters & Specs
-
-- **[Electromagnetism & DEC](Library/Wiki/Electromagnetism.md)** — Singletons, Pixels, Vexels, Maxels, gauge vector potentials ($A$), magnetic flux ($B = d_1 A$), and discrete Maxwell equations.
-- **[Maxwell's Equations in DEC](Library/Wiki/Maxwell_Equations.md)** — Gauss's Law ($\nabla \cdot \mathbf{E} = \rho$), Faraday's Law ($\oint A \cdot \text{d}l$), and discrete divergence/flux conservation.
-- **[Hodge Field Decomposition](Library/Wiki/Hodge_Decomposition.md)** — Orthogonal splitting into Harmonic ($V_{\text{harm}}$), Electrostatic ($\nabla \Phi$), and Solenoidal ($\nabla \times \mathbf{A}$) fields.
-- **[Coulomb Potential & Poisson Equation](Library/Wiki/Coulomb_Potential.md)** — Discrete Poisson solver ($\Delta \Phi = -\rho$) over whole-number integer box weights.
-- **[Gauge Invariance & Energy Conservation](Library/Wiki/Gauge_Invariance.md)** — $U(1)$ local phase symmetry, unitary transitions, and discrete Poynting conservation.
-- **[Photons & Light-Cone Dynamics](Library/Wiki/Photon_Dynamics.md)** — Relativistic null Minkowski cone geometry ($Q_{\text{Red}} = x^2 - y^2 = 0$) and photon timelessness.
+`Idris2-Electromagnetism-Wiki` provides formal compile-time macro reflection proofs, QuickCheck property test suites, and literate Markdown specifications for **Layer 3c** of the non-linear discrete multiset physical law ecosystem.
 
 ---
 
-## 🧪 Executable Verification Suite (`lem-wiki`)
+## 📚 Specification Chapters & Verification Modules
 
-| Module | Verification Target |
-|---|---|
-| [Wiki.ElectromagnetismSpec](Library/Wiki/ElectromagnetismSpec.idr) | U(1) gauge invariance, constant potential zero field, Gauss's law for magnetism ($\nabla \cdot B = 0$), Hodge star involution, and vacuum energy density minimization. |
-| [Wiki.EMHomomorphismSpec](Library/Wiki/EMHomomorphismSpec.idr) | Category-theoretic additive homomorphisms for discrete gradient $d_0(\Phi_1 + \Phi_2) = d_0 \Phi_1 + d_0 \Phi_2$, curl $d_1(A_1 + A_2) = d_1 A_1 + d_1 A_2$, and Hodge star dual $\star(E_1 + E_2) = \star E_1 + \star E_2$. |
-| [Wiki.Main](Library/Wiki/Main.idr) | Executable verification runner (`lem-wiki`) injecting `%macro` elaborator reflection proof witnesses and running total property specifications. |
+### 1. `Library/Wiki/Electromagnetism.md` & `Library/Wiki/Maxwell_Equations.md`
+- **Algebra & Homomorphisms:** Specifications for Discrete Exterior Calculus (DEC), Maxwell field strength tensors ($F = d A$), coboundary $d^2 = 0$, and Maxwell field equations ($d F = 0$, $d \star F = J$).
+- **Verification:** QuickCheck property tests validating discrete charge conservation and field flux continuity.
+
+### 2. `Library/Wiki/Hodge_Decomposition.md` & `Library/Wiki/Gauge_Invariance.md`
+- **Algebra & Homomorphisms:** Hodge star duality ($\star$), Hodge decomposition over discrete cell complexes, and session-typed gauge invariance ($A \to A + d\phi$).
+- **Verification:** Proof witnesses for gauge symmetry invariance and energy density positivity.
+
+### 3. `Library/Wiki/Coulomb_Potential.md` & `Library/Wiki/Photon_Dynamics.md`
+- **Algebra & Homomorphisms:** Exact rational Coulomb potential fields and discrete photon propagation invariants.
+
+### 4. `Library/Wiki/Main.idr`
+- **Verification Runner:** Literate Idris 2 test runner executing compile-time `%macro` reflection proofs and QuickCheck property test suites for Layer 3c (`lem-wiki`).
 
 ---
 
-## 🛠️ Build & Run Verification
+## 🚀 Verification & Build
+
+To compile the literate verification suite and execute the test runner binary:
 
 ```bash
-toolbox run -c fedora-toolbox-44 /var/home/justin/.local/bin/idris2 --build Idris2-Electromagnetism-Wiki.ipkg
-toolbox run -c fedora-toolbox-44 ./build/exec/lem-wiki
+idris2 --build Idris2-Electromagnetism-Wiki.ipkg
+./build/exec/lem-wiki
 ```
 
-© Justin Kelly. All rights reserved.
+---
+
+## 🏗️ 10-Layer Ecosystem Architecture
+
+1. `Idris2-Multiset-Core` / `Idris2-Multiset-Core-Wiki` (Layer 1: Flat Primitives)
+2. `Idris2-Multiset-Transform` / `Idris2-Multiset-Transform-Wiki` (Layer 2: Fields & Scale Functors)
+3. `Idris2-Multiset-Binary` / `Idris2-Multiset-Binary-Wiki` (Layer 2b: Boolean Field Engines)
+4. `Idris2-Multiset-Ternary` / `Idris2-Multiset-Ternary-Wiki` (Layer 2c: Balanced Ternary Sifting)
+5. `Idris2-Geometry` / `Idris2-Geometry-Wiki` (Layer 3: Emergent Metric Geometry)
+6. `Idris2-Physics` / `Idris2-Physics-Wiki` (Layer 3b/6: Physical Conservation Laws)
+7. `Idris2-Hadron` / `Idris2-Hadron-Wiki` (Layer 4b: Standard Model Confinement)
+8. `Idris2-Chemistry` / `Idris2-Chemistry-Wiki` (Layer 5b: Molecular Kinetics)
+9. `Idris2-Biology` / `Idris2-Biology-Wiki` (Layer 6: Biological Hierarchies & Active Inference)
+10. `Idris2-Universe` / `Idris2-Universe-Wiki` (Layer 10: Cosmic Motive & Master Audit)
