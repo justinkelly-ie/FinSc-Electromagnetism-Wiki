@@ -12,11 +12,9 @@ This module documents free electromagnetic radiation, photon propagation along *
 module Wiki.Photon_Dynamics
 
 import QuickCheck
-import Math.Multiset
-import Math.BoxInt
-import Math.Pixel
-import Math.FourGeometries
-import EM.Potential
+import Core
+import Geometry
+import Electromagnetism
 
 %default total
 ```
