@@ -10,7 +10,7 @@
 
 Electromagnetism emerges naturally by parameterizing the core multiset containers across the topological dimension of the cell complex ($0\text{-cells}, 1\text{-cells}, 2\text{-cells}$):
 
-```
+```text
  CELL COMPLEX DIMENSION      MULTISET CONTAINER           PHYSICAL ELECTROMAGNETIC ENTITY
  ──────────────────────      ──────────────────           ───────────────────────────────
  0-Cell (Vertex/Node)    ➔   Singleton (Sing BoxInt node)  Scalar Electric Potential (Φ_i)
@@ -44,7 +44,7 @@ The coboundary operator `applyCoboundary` maps a 0-cochain potential Vexel $\Phi
 
 $$A_{ij} = (d_0 \Phi)_{ij} = \Phi_j - \Phi_i$$
 
-```idris
+```text
 -- Evaluates A_ij = Φ_j - Φ_i across directed Pixel links
 applyCoboundary : Vexel -> Substrate -> Substrate
 ```
@@ -71,7 +71,7 @@ Because multiset addition cancels identical opposite terms (`addMultiset` + `ann
 ### 5. Discrete Laplacian ($\Delta = \partial_1 \circ d_0$)
 The discrete Laplacian $\Delta \Phi = \partial_1 (d_0 \Phi)$ evaluates the spatial divergence of the potential gradient using whole-number multiset arithmetic:
 
-```idris
+```text
 discreteLaplacian : Vexel -> Substrate -> Vexel
 discreteLaplacian field substrate = boundaryOp (applyCoboundary field substrate)
 ```
@@ -81,12 +81,11 @@ discreteLaplacian field substrate = boundaryOp (applyCoboundary field substrate)
 ## 💻 Dependent Type Formalization (Idris 2)
 
 ```idris
-module Formal.EM
+module Wiki.Electromagnetism
 
 import Math.Multiset
 import Math.BoxInt
 import Math.Pixel
-import Substrate.Core
 import EM.Potential
 import EM.Calculus
 
@@ -94,23 +93,13 @@ import EM.Calculus
 
 ||| A 0-Cochain: Electric Potential Field mapped over Node Singletons.
 public export
-0 ElectricPotential : Type
-ElectricPotential = Vexel
+0 ElectricPotentialType : Type
+ElectricPotentialType = ElectricPotential
 
 ||| A 1-Cochain: Gauge Vector Field mapped over Directed Edge Pixels.
 public export
-0 GaugeField : Type
-GaugeField = Substrate
-
-||| Computes the Gauge Vector Field A_ij = Φ_j - Φ_i via multiset coboundary d₀.
-public export
-computeGaugeField : ElectricPotential -> Substrate -> GaugeField
-computeGaugeField phi sub = applyDifferenceMap phi sub
-
-||| Computes the Discrete Laplacian ΔΦ = ∂₁ (d₀ Φ) over integer box weights.
-public export
-computeLaplacian : ElectricPotential -> Substrate -> Vexel
-computeLaplacian phi sub = multisetLaplacian phi sub
+0 VectorPotentialType : Type
+VectorPotentialType = VectorPotential
 ```
 
 ---

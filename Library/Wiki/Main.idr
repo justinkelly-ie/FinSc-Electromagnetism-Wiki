@@ -2,6 +2,7 @@ module Wiki.Main
 
 import Wiki.ElectromagnetismSpec
 import Wiki.EMHomomorphismSpec
+import Wiki.FieldStreamSpec
 import Reflect.Auditor.EM
 import System
 
@@ -22,7 +23,10 @@ main = do
   putStrLn ""
   putStrLn "--- PART 2: CATEGORY-THEORETIC ELECTROMAGNETIC HOMOMORPHISM AUDITS ---"
   s2 <- runEMHomomorphismSpecs
-  if s1 && s2
+  putStrLn ""
+  putStrLn "--- PART 3: DEFORESTED ELECTROMAGNETIC FIELD STATE STREAM AUDITS ---"
+  s3 <- auditFieldStreamProof
+  if s1 && s2 && s3
      then do
        putStrLn ""
        putStrLn "=========================================================================="

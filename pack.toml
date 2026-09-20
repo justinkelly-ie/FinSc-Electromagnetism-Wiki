@@ -1,30 +1,44 @@
-[custom.all.idris2-Electromagnetism-Wiki]
+[package]
+name = "Idris2-Electromagnetism-Wiki"
+version = "0.3.0"
+ipkg = "Idris2-Electromagnetism-Wiki.ipkg"
+
+[custom.all.Idris2-Electromagnetism-Wiki]
 type = "local"
 path = "."
-ipkg = "idris2-Electromagnetism-Wiki.ipkg"
+ipkg = "Idris2-Electromagnetism-Wiki.ipkg"
 
-[custom.all.idris2-Electromagnetism]
+[custom.all.Idris2-Electromagnetism]
 type = "local"
-path = "../idris2-Electromagnetism"
-ipkg = "idris2-Electromagnetism.ipkg"
+path = "../Idris2-Electromagnetism"
+ipkg = "Idris2-Electromagnetism.ipkg"
 
-[custom.all.idris2-Substrate]
+[custom.all.Idris2-Multiset-Core]
 type = "local"
-path = "../idris2-Substrate"
-ipkg = "idris2-Substrate.ipkg"
+path = "../Idris2-Multiset-Core"
+ipkg = "Idris2-Multiset-Core.ipkg"
 
-[custom.all.idris2-chromogeometry]
+[custom.all.Idris2-Multiset-Transform]
 type = "local"
-path = "../idris2-Chromogeometry"
-ipkg = "idris2-chromogeometry.ipkg"
+path = "../Idris2-Multiset-Transform"
+ipkg = "Idris2-Multiset-Transform.ipkg"
 
-[custom.all.idris2-Multiset]
+[custom.all.Idris2-Geometry]
 type = "local"
-path = "../idris2-Multiset"
-ipkg = "idris2-Multiset.ipkg"
+path = "../Idris2-Geometry"
+ipkg = "Idris2-Geometry.ipkg"
+
+[custom.all.Idris2-Dihedron]
+type = "local"
+path = "../Idris2-Dihedron"
+ipkg = "Idris2-Dihedron.ipkg"
+
+[custom.all.Idris2-Fields]
+type = "local"
+path = "../Idris2-Fields"
+ipkg = "Idris2-Fields.ipkg"
 
 [custom.all.idris2-QuickCheck]
 type = "local"
 path = "../idris2-QuickCheck"
 ipkg = "idris2-QuickCheck.ipkg"
-

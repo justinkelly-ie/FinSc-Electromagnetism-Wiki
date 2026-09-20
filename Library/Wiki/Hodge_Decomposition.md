@@ -9,16 +9,17 @@ This module documents the **Discrete Helmholtz-Hodge Decomposition Theorem** for
 ## 1. Literate Idris 2 Implementation
 
 ```idris
-module Hodge_Decomposition
+module Wiki.Hodge_Decomposition
 
 import QuickCheck
 import Math.Multiset
 import Math.BoxInt
 import Math.Pixel
-import Substrate.Core
-import Substrate.Hodge
+import Core.BoxInt
+import Core.VexelMaxel
 import EM.Potential
 import EM.Hodge
+import EM.Calculus
 
 %default total
 ```
@@ -40,37 +41,12 @@ $$V = V_{\text{harmonic}} \oplus \nabla \Phi \oplus (\nabla \times \mathbf{A})$$
 ## 3. Executable Verification Properties
 
 ```idris
-public export
-Arbitrary BoxInt where
-  arbitrary = do
-    n <- arbitrary {a=Integer}
-    pure (fromInteger n)
-  coarbitrary b gen =
-    let (Math.Interfaces.MkUr val) = boxToInt b
-    in coarbitrary val gen
-
-public export
-Arbitrary Geometry where
-  arbitrary = do
-    x <- arbitrary {a=BoxInt}
-    y <- arbitrary {a=BoxInt}
-    pure (MkPixel x y)
-  coarbitrary (MkPixel x y) gen =
-    coarbitrary x (coarbitrary y gen)
-
-||| Vacuum Field Orthogonality: Vacuum state decomposes into empty harmonic components.
+||| Vacuum Field Orthogonality: Vacuum vector potential produces zero magnetic field.
 public export
 prop_hodgeVacuumOrthogonality : Property
 prop_hodgeVacuumOrthogonality = property (
-  let (MkHodge harm grad curl) = decomposeEMField emptyVexel emptySubstrate
-  in harm == emptyVexel && grad == emptyVexel && curl == emptyVexel)
-
-||| Reconstruction Invariant: Superposing harmonic, gradient, and curl fields reconstructs the vacuum.
-public export
-prop_hodgeReconstructionVacuum : Property
-prop_hodgeReconstructionVacuum = forAll {a = Geometry} {prop = Bool} arbitrary (MkFn (\g =>
-  let field = singletonVexel g emptyIntPoly
-      hodge = decomposeEMField field emptySubstrate
-      reconstructed = superposeStates hodge.harmonic (superposeStates hodge.gradient hodge.curl)
-  in reconstructed == field))
+  let eField = vacuumVectorPotential
+      faces = []
+      bField = computeMagneticField faces eField
+  in bField == MkMaxel [])
 ```

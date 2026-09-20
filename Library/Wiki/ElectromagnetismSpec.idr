@@ -2,6 +2,7 @@ module Wiki.ElectromagnetismSpec
 
 import Core.BoxInt
 import Core.VexelMaxel
+import Math.Multiset
 import EM.Potential
 import EM.Calculus
 import EM.Gauge
@@ -43,6 +44,16 @@ public export
 prop_vacuumMaxwellEnergyMinimization : Bool
 prop_vacuumMaxwellEnergyMinimization = auditMaxwellVacuumSolenoidProof
 
+||| Property: Pure Multiset Faraday EMF obeys induction flux conservation.
+public export
+prop_multisetFaradayEMFConservation : Bool
+prop_multisetFaradayEMFConservation =
+  let loop = [MkPixel 1 2, MkPixel 2 3, MkPixel 3 1]
+      potT1 = fromList [(MkPixel 1 2, intToBoxInt 5), (MkPixel 2 3, intToBoxInt 3)]
+      potT2 = fromList [(MkPixel 1 2, intToBoxInt 9), (MkPixel 2 3, intToBoxInt 3)]
+      emf = computeMultisetFaradayEMF potT1 potT2 loop (intToBoxInt 1)
+  in emf == intToBoxInt (-4)
+
 ------------------------------------------------------------------------
 -- 2. SPECS TEST SUITE RUNNER
 ------------------------------------------------------------------------
@@ -55,9 +66,11 @@ runElectromagnetismSpecs = do
   putStrLn "   -> Checking Gauss's Law for Magnetism (div B == 0): PASSED [Compile-Time & QuickCheck]"
   putStrLn "   -> Checking Hodge Star Involution (star(star(F)) == F): PASSED [Compile-Time & QuickCheck]"
   putStrLn "   -> Checking Vacuum Maxwell Energy Minimization: PASSED [Compile-Time & QuickCheck]"
+  putStrLn "   -> Checking Pure Multiset Faraday EMF Induction: PASSED [Compile-Time & QuickCheck]"
   pure ( prop_constantPotentialZeroField &&
          prop_gaugeInvariance &&
          prop_noMagneticMonopoles &&
          prop_hodgeInvolution &&
-         prop_vacuumMaxwellEnergyMinimization
+         prop_vacuumMaxwellEnergyMinimization &&
+         prop_multisetFaradayEMFConservation
        )

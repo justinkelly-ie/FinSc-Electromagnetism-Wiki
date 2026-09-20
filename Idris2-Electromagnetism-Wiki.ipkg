@@ -1,19 +1,20 @@
 package Idris2-Electromagnetism-Wiki
 version = 0.3.0
 authors = "Justin Kelly"
-executable = em-wiki
-main = Wiki.Main
 
-depends = base
-        , Idris2-Multiset-Core
-        , Idris2-Multiset-Transform
-        , Idris2-Geometry
-        , Idris2-Physics
-        , Idris2-Electromagnetism
-        , idris2-QuickCheck
-
+depends = Idris2-Electromagnetism, Idris2-Fields, Idris2-Multiset-Core, Idris2-Multiset-Transform, base, idris2-QuickCheck, linear
 sourcedir = "Library"
 
-modules = Wiki.ElectromagnetismSpec
-        , Wiki.EMHomomorphismSpec
-        , Wiki.Main
+modules = Wiki.Coulomb_Potential,
+          Wiki.EMHomomorphismSpec,
+          Wiki.Electromagnetism,
+          Wiki.ElectromagnetismSpec,
+          Wiki.FieldStreamSpec,
+          Wiki.Gauge_Invariance,
+          Wiki.Hodge_Decomposition,
+          Wiki.Main,
+          Wiki.Maxwell_Equations,
+          Wiki.Photon_Dynamics
+
+main = Wiki.Main
+executable = em-wiki

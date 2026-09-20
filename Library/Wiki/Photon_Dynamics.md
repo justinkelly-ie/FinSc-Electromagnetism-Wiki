@@ -9,14 +9,13 @@ This module documents free electromagnetic radiation, photon propagation along *
 ## 1. Literate Idris 2 Implementation
 
 ```idris
-module Photon_Dynamics
+module Wiki.Photon_Dynamics
 
 import QuickCheck
 import Math.Multiset
 import Math.BoxInt
 import Math.Pixel
-import Math.Chromogeometry
-import Substrate.Core
+import Math.FourGeometries
 import EM.Potential
 
 %default total
@@ -36,29 +35,17 @@ import EM.Potential
 
 ```idris
 public export
-Arbitrary BoxInt where
+Arbitrary Core.BoxInt.BoxInt where
   arbitrary = do
     n <- arbitrary {a=Integer}
-    pure (fromInteger n)
-  coarbitrary b gen =
-    let (Math.Interfaces.MkUr val) = boxToInt b
-    in coarbitrary val gen
-
-public export
-Arbitrary Geometry where
-  arbitrary = do
-    x <- arbitrary {a=BoxInt}
-    y <- arbitrary {a=BoxInt}
-    pure (MkPixel x y)
-  coarbitrary (MkPixel x y) gen =
-    coarbitrary x (coarbitrary y gen)
+    pure (intToBoxInt n)
+  coarbitrary (MkBoxInt val) gen =
+    coarbitrary val gen
 
 ||| Light-Cone Null Signature: Points on diagonal x = y have Red Quadrance = 0.
 public export
 prop_nullDiagonalRedQuadrance : Property
-prop_nullDiagonalRedQuadrance = forAll {a = BoxInt} {prop = Bool} arbitrary (MkFn (\d =>
-  let origin = MkPixel 0 0
-      nullPoint = MkPixel d d
-      qRed = quadranceNL Red origin nullPoint
+prop_nullDiagonalRedQuadrance = forAll {a = Core.BoxInt.BoxInt} {prop = Bool} arbitrary (MkFn (\d =>
+  let qRed = evaluateQuadrance HyperbolicGeom d d
   in qRed == 0))
 ```
