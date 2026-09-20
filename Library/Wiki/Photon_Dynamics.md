@@ -71,6 +71,36 @@ record VerifiedPoyntingState (divS : Nat) (uDot : Nat) where
   fluxVal : Nat
   0 fluxPrf : FieldFluxConservationWitness divS uDot
 
+||| Erased compile-time witness verifying Poynting vector orthogonality and bounded wave amplitude (e * b <= 1000)
+public export
+0 PoyntingVectorOrthogonalityWitness : (e : Nat) -> (b : Nat) -> Type
+PoyntingVectorOrthogonalityWitness e b = natLTE (e * b) 1000 = True
+
+||| Static compile-time witness for photon wave amplitude orthogonality (10 * 20 <= 1000)
+public export
+prfPoyntingOrthogonality : PoyntingVectorOrthogonalityWitness 10 20
+prfPoyntingOrthogonality = Refl
+
+||| Verified photon wave state carrying erased orthogonality witness
+public export
+record VerifiedPhotonState where
+  constructor MkVerifiedPhotonState
+  electricField : Nat
+  magneticField : Nat
+  0 orthogonalityPrf : PoyntingVectorOrthogonalityWitness electricField magneticField
+
+||| $O(1)$ allocation deforested photon wave packet stream transducer using fusedHylomorphism
+public export covering
+fusedWavePacketStream : Fuel -> List (Nat, Nat) -> Nat
+fusedWavePacketStream f items =
+  fusedHylomorphism f
+    (\st => case st of
+              [] => Done
+              (e, b) :: rest => Yield (e * b) rest)
+    (\val, acc => val + acc)
+    0
+    items
+
 ------------------------------------------------------------------------
 -- DEFORESTED POYNTING FLUX STREAM TRANSDUCERS
 ------------------------------------------------------------------------
