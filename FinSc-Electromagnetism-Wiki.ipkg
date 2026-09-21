@@ -1,8 +1,8 @@
-package Idris2-Electromagnetism-Wiki
+package FinSc-Electromagnetism-Wiki
 version = 0.3.0
 authors = "Justin Kelly"
 
-depends = Idris2-Electromagnetism, Idris2-Fields, Idris2-Multiset-Core, Idris2-Multiset-Transform, base, idris2-QuickCheck, linear
+depends = FinSc-Electromagnetism, FinSc-Fields, FinSc-Multiset-Core, FinSc-Multiset-Transform, base, idris2-QuickCheck, linear
 sourcedir = "Library"
 
 modules = Wiki.Coulomb_Potential,
