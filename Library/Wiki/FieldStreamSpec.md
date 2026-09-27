@@ -9,12 +9,11 @@ module Wiki.FieldStreamSpec
 
 import Data.List
 import Data.Fuel
-import Math.OnSeq.FusedStream
-import EM.Maxwell
-import EM.FieldStream
-import Core.VexelMaxel
-import Core.BoxInt
-import Geometry.GrassmannCalculus
+import Stage0.OnSeq.FusedStream
+import public Electromagnetism
+import Stage1.VexelMaxel
+import Stage0.BoxInt
+import Stage1.GrassmannCalculus
 
 %default total
 
@@ -69,9 +68,10 @@ prop_poyntingAccumulation =
     st1 = vacuumMaxwellState
     st2 = vacuumMaxwellState
     strm = streamMaxwellStates [st1, st2]
-    (Core.VexelMaxel.MkMaxel acc) = fusedPoyntingAccumulate strm
+    (Stage1.VexelMaxel.MkMaxel acc) = fusedPoyntingAccumulate strm
+    energy = fusedPoyntingEnergyAccumulate strm
   in
-    acc == []
+    acc == [] && unwrapBox energy == 0
 
 ||| QuickCheck / Direct Suite Execution for Field Stream Spec
 public export covering

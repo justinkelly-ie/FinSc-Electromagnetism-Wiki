@@ -15,8 +15,8 @@ import QuickCheck
 import Core
 import Geometry
 import Electromagnetism
-import Core.Order.Preorder
-import Math.OnSeq.FusedStream
+import Stage1.Order.Preorder
+import Stage0.OnSeq.FusedStream
 import Data.Fuel
 
 %default total
@@ -36,7 +36,7 @@ import Data.Fuel
 
 ```idris
 public export
-Arbitrary Core.BoxInt.BoxInt where
+Arbitrary Stage0.BoxInt.BoxInt where
   arbitrary = do
     n <- arbitrary {a=Integer}
     pure (intToBoxInt n)
@@ -46,7 +46,7 @@ Arbitrary Core.BoxInt.BoxInt where
 ||| Light-Cone Null Signature: Points on diagonal x = y have Red Quadrance = 0.
 public export
 prop_nullDiagonalRedQuadrance : Property
-prop_nullDiagonalRedQuadrance = forAll {a = Core.BoxInt.BoxInt} {prop = Bool} arbitrary (MkFn (\d =>
+prop_nullDiagonalRedQuadrance = forAll {a = Stage0.BoxInt.BoxInt} {prop = Bool} arbitrary (MkFn (\d =>
   let qRed = evaluateQuadrance HyperbolicGeom d d
   in qRed == 0))
 
@@ -128,4 +128,17 @@ fusedPoyntingFluxStream f steps =
     (\step, acc => fluxVal step + acc)
     0
     (1, steps)
+
+||| Audits photon dynamics null light-cone quadrance and deforested Poynting flux stream transducers.
+public export covering
+auditPhotonDynamicsProof : IO Bool
+auditPhotonDynamicsProof = do
+  let pNull = QuickCheck True prop_nullDiagonalRedQuadrance
+  let waveSum = fusedWavePacketStream (limit 100) [(10, 20), (5, 5)]
+  let fluxSum = fusedPoyntingFluxStream (limit 100) [(30, 30), (20, 20)]
+  let pStream = (waveSum == 225) && (fluxSum == 50)
+  let res = pNull && pStream
+  putStrLn $ "   -> Checking Photon Null Light-Cone & Transducer Stream Energy: " ++ (if res then "PASSED" else "FAILED")
+  pure res
 ```
+

@@ -12,14 +12,11 @@ This module documents the **Discrete Helmholtz-Hodge Decomposition Theorem** for
 module Wiki.Hodge_Decomposition
 
 import QuickCheck
-import Math.Multiset
-import Math.BoxInt
-import Math.Pixel
-import Core.BoxInt
-import Core.VexelMaxel
-import EM.Potential
-import EM.Hodge
-import EM.Calculus
+import Stage0.Multiset
+import Stage0.BoxInt
+import Stage0.Pixel
+import Stage1.VexelMaxel
+import public Electromagnetism
 
 %default total
 ```
@@ -49,4 +46,13 @@ prop_hodgeVacuumOrthogonality = property (
       faces = []
       bField = computeMagneticField faces eField
   in bField == MkMaxel [])
+
+||| Audits Hodge vacuum field orthogonality property.
+public export
+auditHodgeDecompositionProof : IO Bool
+auditHodgeDecompositionProof = do
+  let res = QuickCheck True prop_hodgeVacuumOrthogonality
+  putStrLn $ "   -> Checking Helmholtz-Hodge Field Orthogonality: " ++ (if res then "PASSED" else "FAILED")
+  pure res
 ```
+

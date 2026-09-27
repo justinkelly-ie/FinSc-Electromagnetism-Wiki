@@ -3,7 +3,11 @@ module Wiki.Main
 import Wiki.ElectromagnetismSpec
 import Wiki.EMHomomorphismSpec
 import Wiki.FieldStreamSpec
-import Reflect.Auditor.EM
+import Wiki.Coulomb_Potential
+import Wiki.Gauge_Invariance
+import Wiki.Hodge_Decomposition
+import Wiki.Maxwell_Equations
+import Wiki.Photon_Dynamics
 import System
 
 %default total
@@ -26,7 +30,14 @@ main = do
   putStrLn ""
   putStrLn "--- PART 3: DEFORESTED ELECTROMAGNETIC FIELD STATE STREAM AUDITS ---"
   s3 <- auditFieldStreamProof
-  if s1 && s2 && s3
+  putStrLn ""
+  putStrLn "--- PART 4: LITERATE WIKI PHYSICAL MODEL & SPEC AUDITS ---"
+  w1 <- auditCoulombPotentialProof
+  w2 <- auditGaugeInvarianceWikiProof
+  w3 <- auditHodgeDecompositionProof
+  w4 <- auditMaxwellEquationsProof
+  w5 <- auditPhotonDynamicsProof
+  if s1 && s2 && s3 && w1 && w2 && w3 && w4 && w5
      then do
        putStrLn ""
        putStrLn "=========================================================================="
@@ -35,3 +46,4 @@ main = do
      else do
        putStrLn "   -> FAIL: Electromagnetism verification check failed!"
        exitWith (ExitFailure 1)
+

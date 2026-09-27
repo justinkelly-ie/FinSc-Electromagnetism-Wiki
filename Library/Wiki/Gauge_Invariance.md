@@ -12,13 +12,11 @@ This module formalizes **$U(1)$ Local Gauge Symmetry**, **Gauge Operators (`Maxe
 module Wiki.Gauge_Invariance
 
 import QuickCheck
-import Math.Multiset
-import Math.BoxInt
-import Math.Pixel
-import Core.BoxInt
-import Core.VexelMaxel
-import EM.Gauge
-import EM.Potential
+import Stage0.Multiset
+import Stage0.BoxInt
+import Stage0.Pixel
+import Stage1.VexelMaxel
+import public Electromagnetism
 
 %default total
 ```
@@ -45,4 +43,13 @@ prop_vacuumGaugeIsometry = property (
   let emptyOp : VectorPotential
       emptyOp = vacuumVectorPotential
   in emptyOp == MkMaxel [])
+
+||| Audits vacuum gauge isometry property.
+public export
+auditGaugeInvarianceWikiProof : IO Bool
+auditGaugeInvarianceWikiProof = do
+  let res = QuickCheck True prop_vacuumGaugeIsometry
+  putStrLn $ "   -> Checking Local Gauge Isometry & Energy Conservation: " ++ (if res then "PASSED" else "FAILED")
+  pure res
 ```
+

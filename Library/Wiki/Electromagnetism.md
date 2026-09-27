@@ -83,11 +83,10 @@ discreteLaplacian field substrate = boundaryOp (applyCoboundary field substrate)
 ```idris
 module Wiki.Electromagnetism
 
-import Math.Multiset
-import Math.BoxInt
-import Math.Pixel
-import EM.Potential
-import EM.Calculus
+import Stage0.Multiset
+import Stage0.BoxInt
+import Stage0.Pixel
+import public Electromagnetism
 
 %default total
 

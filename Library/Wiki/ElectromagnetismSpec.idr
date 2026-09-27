@@ -1,15 +1,9 @@
 module Wiki.ElectromagnetismSpec
 
-import Core.BoxInt
-import Core.VexelMaxel
-import Math.Multiset
-import EM.Potential
-import EM.Calculus
-import EM.Gauge
-import EM.Flux
-import EM.Hodge
-import EM.Maxwell
-import Reflect.Auditor.EM
+import Stage0.BoxInt
+import Stage1.VexelMaxel
+import Stage0.Multiset
+import public Electromagnetism
 import QuickCheck
 import Data.List
 
@@ -37,7 +31,7 @@ prop_noMagneticMonopoles = auditNoMagneticMonopolesProof
 ||| Property: Combinatorial Hodge Star operator is an involution (star(star(F)) == F).
 public export
 prop_hodgeInvolution : Bool
-prop_hodgeInvolution = EM.Hodge.auditHodgeStarInvolutionProof
+prop_hodgeInvolution = Stage1.EM.Hodge.auditHodgeStarInvolutionProof
 
 ||| Property: Vacuum Maxwell field minimizes discrete electromagnetic energy density.
 public export
@@ -61,16 +55,17 @@ prop_multisetFaradayEMFConservation =
 public export
 runElectromagnetismSpecs : IO Bool
 runElectromagnetismSpecs = do
-  putStrLn "   -> Checking Constant Potential Zero Field: PASSED [Compile-Time & QuickCheck]"
-  putStrLn "   -> Checking U(1) Gauge Invariance (B(A + d0 chi) == B(A)): PASSED [Compile-Time & QuickCheck]"
-  putStrLn "   -> Checking Gauss's Law for Magnetism (div B == 0): PASSED [Compile-Time & QuickCheck]"
-  putStrLn "   -> Checking Hodge Star Involution (star(star(F)) == F): PASSED [Compile-Time & QuickCheck]"
-  putStrLn "   -> Checking Vacuum Maxwell Energy Minimization: PASSED [Compile-Time & QuickCheck]"
-  putStrLn "   -> Checking Pure Multiset Faraday EMF Induction: PASSED [Compile-Time & QuickCheck]"
-  pure ( prop_constantPotentialZeroField &&
-         prop_gaugeInvariance &&
-         prop_noMagneticMonopoles &&
-         prop_hodgeInvolution &&
-         prop_vacuumMaxwellEnergyMinimization &&
-         prop_multisetFaradayEMFConservation
-       )
+  let p1 = prop_constantPotentialZeroField
+  let p2 = prop_gaugeInvariance
+  let p3 = prop_noMagneticMonopoles
+  let p4 = prop_hodgeInvolution
+  let p5 = prop_vacuumMaxwellEnergyMinimization
+  let p6 = prop_multisetFaradayEMFConservation
+  putStrLn $ "   -> Checking Constant Potential Zero Field: " ++ (if p1 then "PASSED" else "FAILED")
+  putStrLn $ "   -> Checking U(1) Gauge Invariance (B(A + d0 chi) == B(A)): " ++ (if p2 then "PASSED" else "FAILED")
+  putStrLn $ "   -> Checking Gauss's Law for Magnetism (div B == 0): " ++ (if p3 then "PASSED" else "FAILED")
+  putStrLn $ "   -> Checking Hodge Star Involution (star(star(F)) == F): " ++ (if p4 then "PASSED" else "FAILED")
+  putStrLn $ "   -> Checking Vacuum Maxwell Energy Minimization: " ++ (if p5 then "PASSED" else "FAILED")
+  putStrLn $ "   -> Checking Pure Multiset Faraday EMF Induction: " ++ (if p6 then "PASSED" else "FAILED")
+  pure (p1 && p2 && p3 && p4 && p5 && p6)
+

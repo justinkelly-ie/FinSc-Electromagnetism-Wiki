@@ -12,13 +12,11 @@ This module documents how **Coulomb's Law** and the **Poisson Equation** ($\Delt
 module Wiki.Coulomb_Potential
 
 import QuickCheck
-import Math.Multiset
-import Math.BoxInt
-import Math.Pixel
-import Core.BoxInt
-import Core.VexelMaxel
-import EM.Potential
-import EM.Calculus
+import Stage0.Multiset
+import Stage0.BoxInt
+import Stage0.Pixel
+import Stage1.VexelMaxel
+import public Electromagnetism
 
 %default total
 ```
@@ -47,4 +45,13 @@ prop_vacuumLaplacianIsZero = property (
       phi = vacuumElectricPotential
       lap = computePoissonLaplacian edges phi
   in lap == MkVexel [])
+
+||| Audits Poisson equation vacuum Laplacian property.
+public export
+auditCoulombPotentialProof : IO Bool
+auditCoulombPotentialProof = do
+  let res = QuickCheck True prop_vacuumLaplacianIsZero
+  putStrLn $ "   -> Checking Discrete Poisson Equation Vacuum Laplacian: " ++ (if res then "PASSED" else "FAILED")
+  pure res
 ```
+

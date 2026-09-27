@@ -26,13 +26,9 @@ This module formalizes classical Maxwell's equations in **Discrete Exterior Calc
 module Wiki.Maxwell_Equations
 
 import QuickCheck
-import Math.Multiset
-import Math.BoxInt
-import Core.BoxInt
-import EM.Potential
-import EM.Calculus
-import EM.Flux
-import EM.Maxwell
+import Stage0.Multiset
+import Stage0.BoxInt
+import public Electromagnetism
 
 %default total
 ```
@@ -62,4 +58,13 @@ prop_vacuumEnergyZero = property (
       bZero = maxwellMagneticField state
       energy = computeEnergyDensity eZero bZero
   in energy == MkBoxInt 0)
+
+||| Audits vacuum Maxwell energy density balance.
+public export
+auditMaxwellEquationsProof : IO Bool
+auditMaxwellEquationsProof = do
+  let res = QuickCheck True prop_vacuumEnergyZero
+  putStrLn $ "   -> Checking Vacuum Maxwell Energy Density Balance: " ++ (if res then "PASSED" else "FAILED")
+  pure res
 ```
+

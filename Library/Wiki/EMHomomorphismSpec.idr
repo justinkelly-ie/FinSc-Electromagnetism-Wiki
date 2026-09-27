@@ -1,14 +1,8 @@
 module Wiki.EMHomomorphismSpec
 
-import Core.BoxInt
-import Core.VexelMaxel
-import EM.Potential
-import EM.Calculus
-import EM.Gauge
-import EM.Flux
-import EM.Hodge
-import EM.Maxwell
-import Reflect.Auditor.EM
+import Stage0.BoxInt
+import Stage1.VexelMaxel
+import public Electromagnetism
 import QuickCheck
 import Data.List
 import Data.Vect
