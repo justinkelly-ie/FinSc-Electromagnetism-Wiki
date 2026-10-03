@@ -50,12 +50,12 @@ applyCoboundary : Vexel -> Substrate -> Substrate
 ```
 
 ### 2. The Boundary Operator ($\partial_1$): Divergence & Net Charge
-The discrete boundary operator `boundaryOp` maps 1-chains (Substrate edges) to 0-chains (Vexel nodes), evaluating the net flux / charge divergence entering or exiting each node:
+The discrete boundary operator maps edge multisets (Substrate edges) to node multisets (Vexel nodes), evaluating the net flux / charge divergence entering or exiting each node:
 
 $$\partial_1 A = \sum_{j} A_{ij}$$
 
 ### 3. Magnetic Flux & Plaquette Circulation ($B = d_1 A$)
-Magnetic flux is the 2-cochain field strength $F = d_1 A$. For a plaquette (a closed loop of 4 Pixels $e_1, e_2, e_3, e_4$), the magnetic flux $B$ is computed as the exact sum of edge gauge potentials around the loop:
+Magnetic flux is the 2-cell field strength $F = d_1 A$. For a plaquette (a closed loop of 4 Pixels $e_1, e_2, e_3, e_4$), the magnetic flux $B$ is computed as the exact sum of edge gauge potentials around the loop:
 
 $$B_{\text{plaquette}} = A_{12} + A_{23} + A_{34} + A_{41}$$
 

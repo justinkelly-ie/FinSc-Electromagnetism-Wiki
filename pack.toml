@@ -33,10 +33,10 @@ type = "local"
 path = "../FinSc-Dihedron"
 ipkg = "FinSc-Dihedron.ipkg"
 
-[custom.all.FinSc-Fields]
+[custom.all.FinSc-Gauge-Fields]
 type = "local"
-path = "../FinSc-Fields"
-ipkg = "FinSc-Fields.ipkg"
+path = "../FinSc-Gauge-Fields"
+ipkg = "FinSc-Gauge-Fields.ipkg"
 
 [custom.all.idris2-QuickCheck]
 type = "local"
