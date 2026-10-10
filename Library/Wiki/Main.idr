@@ -9,6 +9,7 @@ import Wiki.Hodge_Decomposition
 import Wiki.Maxwell_Equations
 import Wiki.Photon_Dynamics
 import Stage1.Reflect.Auditor.EM
+import Stage0.TransferMatrix
 import Language.Reflection
 import System
 
@@ -49,7 +50,13 @@ main = do
   w3 <- auditHodgeDecompositionProof
   w4 <- auditMaxwellEquationsProof
   w5 <- auditPhotonDynamicsProof
-  if s1 && s2 && s3 && w1 && w2 && w3 && w4 && w5
+  putStrLn ""
+  putStrLn "--- PART 5: DEFORESTED PHOTONIC TRANSFER MATRIX METHOD (TMM) ---"
+  let tmmPass = auditPhotonicTransferMatrixProof
+  if tmmPass
+     then putStrLn "   -> PASS: 2x2 companion transfer matrix recurrence & Poynting flux verified."
+     else putStrLn "   -> FAIL: Photonic transfer matrix check failed."
+  if s1 && s2 && s3 && w1 && w2 && w3 && w4 && w5 && tmmPass
      then do
        putStrLn ""
        putStrLn "=========================================================================="
