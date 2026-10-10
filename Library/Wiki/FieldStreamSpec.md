@@ -35,17 +35,11 @@ record VerifiedGaugeChannelState where
   protocolOut : Nat
   0 dualityPrf : SessionProtocolDualityWitness protocolIn protocolOut
 
-||| $O(1)$ allocation deforested gauge session stream transducer using fusedHylomorphism
-public export covering
+||| $O(1)$ allocation deforested gauge session stream transducer using foldStreamNat
+public export
 fusedGaugeSessionStream : Fuel -> List (Nat, Nat) -> Nat
-fusedGaugeSessionStream f items =
-  fusedHylomorphism f
-    (\st => case st of
-              [] => Done
-              (pIn, pOut) :: rest => Yield (pIn + pOut) rest)
-    (\val, acc => val + acc)
-    0
-    items
+fusedGaugeSessionStream _ items =
+  foldStreamNat (length items) (\acc, (pIn, pOut) => acc + pIn + pOut) 0 (stream items)
 
 ||| Property 1: Fused Poynting Stream Extraction Equivalence
 public export
@@ -56,12 +50,12 @@ prop_poyntingStreamEquivalence =
     st2 = vacuumMaxwellState
     strm = streamMaxwellStates [st1, st2]
     poyntingStrm = fusedPoyntingStream strm
-    res = runFueledStream (limit 10) poyntingStrm
+    res = runFueledStream hyperbolicFuel poyntingStrm
   in
     length res == 2
 
 ||| Property 2: Deforested Poynting Flux Accumulation
-public export covering
+public export
 prop_poyntingAccumulation : Bool
 prop_poyntingAccumulation =
   let
@@ -74,7 +68,7 @@ prop_poyntingAccumulation =
     acc == [] && unwrapBox energy == 0
 
 ||| QuickCheck / Direct Suite Execution for Field Stream Spec
-public export covering
+public export
 auditFieldStreamProof : IO Bool
 auditFieldStreamProof = do
   let p1 = prop_poyntingStreamEquivalence

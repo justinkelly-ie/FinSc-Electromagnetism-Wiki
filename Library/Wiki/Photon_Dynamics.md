@@ -89,17 +89,11 @@ record VerifiedPhotonState where
   magneticField : Nat
   0 orthogonalityPrf : PoyntingVectorOrthogonalityWitness electricField magneticField
 
-||| $O(1)$ allocation deforested photon wave packet stream transducer using fusedHylomorphism
-public export covering
+||| $O(1)$ allocation deforested photon wave packet stream transducer using foldStreamNat
+public export
 fusedWavePacketStream : Fuel -> List (Nat, Nat) -> Nat
-fusedWavePacketStream f items =
-  fusedHylomorphism f
-    (\st => case st of
-              [] => Done
-              (e, b) :: rest => Yield (e * b) rest)
-    (\val, acc => val + acc)
-    0
-    items
+fusedWavePacketStream _ items =
+  foldStreamNat (length items) (\acc, (e, b) => acc + (e * b)) 0 (stream items)
 
 ------------------------------------------------------------------------
 -- DEFORESTED POYNTING FLUX STREAM TRANSDUCERS
@@ -118,19 +112,13 @@ Eq PoyntingStep where
     id1 == id2 && f1 == f2
 
 ||| O(1) allocation deforested stream transducer evaluating total Poynting energy flux across field steps.
-public export covering
+public export
 fusedPoyntingFluxStream : Fuel -> List (Nat, Nat) -> Nat
-fusedPoyntingFluxStream f steps =
-  fusedHylomorphism f
-    (\(idx, st) => case st of
-                     [] => Done
-                     (divS, uDot) :: rest => Yield (MkPoyntingStep idx divS) (idx + 1, rest))
-    (\step, acc => fluxVal step + acc)
-    0
-    (1, steps)
+fusedPoyntingFluxStream _ steps =
+  foldStreamNat (length steps) (\acc, (divS, _) => acc + divS) 0 (stream steps)
 
 ||| Audits photon dynamics null light-cone quadrance and deforested Poynting flux stream transducers.
-public export covering
+public export
 auditPhotonDynamicsProof : IO Bool
 auditPhotonDynamicsProof = do
   let pNull = QuickCheck True prop_nullDiagonalRedQuadrance

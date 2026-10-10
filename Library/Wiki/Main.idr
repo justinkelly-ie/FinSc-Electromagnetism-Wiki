@@ -8,9 +8,21 @@ import Wiki.Gauge_Invariance
 import Wiki.Hodge_Decomposition
 import Wiki.Maxwell_Equations
 import Wiki.Photon_Dynamics
+import Stage1.Reflect.Auditor.EM
+import Language.Reflection
 import System
 
 %default total
+
+public export
+%macro
+auditInvariant : (prop : Bool) -> Elab (prop = True)
+auditInvariant True = pure Refl
+auditInvariant False = fail "Compile-time invariant audit failed!"
+
+-- Compile-Time Invariant Audits (Rule 01)
+0 auditEMDecNilpotencyWitness : Stage1.Reflect.Auditor.EM.auditEMDecNilpotencyProofExport = True
+auditEMDecNilpotencyWitness = Refl
 
 ------------------------------------------------------------------------
 -- MAIN VERIFICATION SUITE EXECUTABLE
