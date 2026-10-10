@@ -61,11 +61,14 @@ runElectromagnetismSpecs = do
   let p4 = prop_hodgeInvolution
   let p5 = prop_vacuumMaxwellEnergyMinimization
   let p6 = prop_multisetFaradayEMFConservation
+  let p7 = Stage1.EM.Calculus.auditElectricFieldStreamEquivalenceProof
   putStrLn $ "   -> Checking Constant Potential Zero Field: " ++ (if p1 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking U(1) Gauge Invariance (B(A + d0 chi) == B(A)): " ++ (if p2 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Gauss's Law for Magnetism (div B == 0): " ++ (if p3 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Hodge Star Involution (star(star(F)) == F): " ++ (if p4 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Vacuum Maxwell Energy Minimization: " ++ (if p5 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Pure Multiset Faraday EMF Induction: " ++ (if p6 then "PASSED" else "FAILED")
-  pure (p1 && p2 && p3 && p4 && p5 && p6)
+  putStrLn $ "   -> Checking Deforested Electric Field Stream Equivalence: " ++ (if p7 then "PASSED" else "FAILED")
+  pure (p1 && p2 && p3 && p4 && p5 && p6 && p7)
+
 
