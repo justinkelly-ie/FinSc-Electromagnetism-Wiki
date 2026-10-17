@@ -10,6 +10,7 @@ module Wiki.FieldStreamSpec
 import Data.List
 import Data.Fuel
 import Stage0.OnSeq.FusedStream
+import Stage0.StructuralFuel
 import public Electromagnetism
 import Stage1.VexelMaxel
 import Stage0.BoxInt
@@ -37,9 +38,9 @@ record VerifiedGaugeChannelState where
 
 ||| $O(1)$ allocation deforested gauge session stream transducer using foldStreamNat
 public export
-fusedGaugeSessionStream : Fuel -> List (Nat, Nat) -> Nat
-fusedGaugeSessionStream _ items =
-  foldStreamNat (length items) (\acc, (pIn, pOut) => acc + pIn + pOut) 0 (stream items)
+fusedGaugeSessionStream : GohFuel cap -> List (Nat, Nat) -> Nat
+fusedGaugeSessionStream fuel items =
+  foldStreamNat (gohSteps fuel) (\acc, (pIn, pOut) => acc + pIn + pOut) 0 (stream items)
 
 ||| Property 1: Fused Poynting Stream Extraction Equivalence
 public export
@@ -73,6 +74,6 @@ auditFieldStreamProof : IO Bool
 auditFieldStreamProof = do
   let p1 = prop_poyntingStreamEquivalence
   let p2 = prop_poyntingAccumulation
-  let streamSum = fusedGaugeSessionStream (limit 100) [(50, 50), (10, 10)]
+  let streamSum = fusedGaugeSessionStream hyperbolicGohFuelModel [(50, 50), (10, 10)]
   pure (p1 && p2 && streamSum == 120)
 ```

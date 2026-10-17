@@ -17,6 +17,7 @@ import Geometry
 import Electromagnetism
 import Stage1.Order.Preorder
 import Stage0.OnSeq.FusedStream
+import Stage0.StructuralFuel
 import Data.Fuel
 
 %default total
@@ -91,9 +92,9 @@ record VerifiedPhotonState where
 
 ||| $O(1)$ allocation deforested photon wave packet stream transducer using foldStreamNat
 public export
-fusedWavePacketStream : Fuel -> List (Nat, Nat) -> Nat
-fusedWavePacketStream _ items =
-  foldStreamNat (length items) (\acc, (e, b) => acc + (e * b)) 0 (stream items)
+fusedWavePacketStream : GohFuel cap -> List (Nat, Nat) -> Nat
+fusedWavePacketStream fuel items =
+  foldStreamNat (gohSteps fuel) (\acc, (e, b) => acc + (e * b)) 0 (stream items)
 
 ------------------------------------------------------------------------
 -- DEFORESTED POYNTING FLUX STREAM TRANSDUCERS
@@ -113,17 +114,17 @@ Eq PoyntingStep where
 
 ||| O(1) allocation deforested stream transducer evaluating total Poynting energy flux across field steps.
 public export
-fusedPoyntingFluxStream : Fuel -> List (Nat, Nat) -> Nat
-fusedPoyntingFluxStream _ steps =
-  foldStreamNat (length steps) (\acc, (divS, _) => acc + divS) 0 (stream steps)
+fusedPoyntingFluxStream : GohFuel cap -> List (Nat, Nat) -> Nat
+fusedPoyntingFluxStream fuel steps =
+  foldStreamNat (gohSteps fuel) (\acc, (divS, _) => acc + divS) 0 (stream steps)
 
 ||| Audits photon dynamics null light-cone quadrance and deforested Poynting flux stream transducers.
 public export
 auditPhotonDynamicsProof : IO Bool
 auditPhotonDynamicsProof = do
   let pNull = QuickCheck True prop_nullDiagonalRedQuadrance
-  let waveSum = fusedWavePacketStream (limit 100) [(10, 20), (5, 5)]
-  let fluxSum = fusedPoyntingFluxStream (limit 100) [(30, 30), (20, 20)]
+  let waveSum = fusedWavePacketStream hyperbolicGohFuelModel [(10, 20), (5, 5)]
+  let fluxSum = fusedPoyntingFluxStream hyperbolicGohFuelModel [(30, 30), (20, 20)]
   let pStream = (waveSum == 225) && (fluxSum == 50)
   let res = pNull && pStream
   putStrLn $ "   -> Checking Photon Null Light-Cone & Transducer Stream Energy: " ++ (if res then "PASSED" else "FAILED")
