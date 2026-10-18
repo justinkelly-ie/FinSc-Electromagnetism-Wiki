@@ -63,10 +63,10 @@ prop_poyntingAccumulation =
     st1 = vacuumMaxwellState
     st2 = vacuumMaxwellState
     strm = streamMaxwellStates [st1, st2]
-    (Stage1.VexelMaxel.MkMaxel acc) = fusedPoyntingAccumulate strm
+    accMaxel = fusedPoyntingAccumulate strm
     energy = fusedPoyntingEnergyAccumulate strm
   in
-    acc == [] && unwrapBox energy == 0
+    pixels accMaxel == [] && boxIsZero energy
 
 ||| QuickCheck / Direct Suite Execution for Field Stream Spec
 public export
