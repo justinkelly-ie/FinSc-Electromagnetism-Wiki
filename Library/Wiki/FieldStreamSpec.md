@@ -12,7 +12,7 @@ import Data.Fuel
 import Stage0.OnSeq.FusedStream
 import Stage0.StructuralFuel
 import public Electromagnetism
-import Stage1.VexelMaxel
+import Stage1.Carrier.Maxel
 import Stage0.BoxInt
 import Stage1.GrassmannCalculus
 

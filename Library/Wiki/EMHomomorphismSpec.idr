@@ -1,7 +1,8 @@
 module Wiki.EMHomomorphismSpec
 
 import Stage0.BoxInt
-import Stage1.VexelMaxel
+import Stage1.Carrier.Vexel
+import Stage1.Basis.Coordinate
 import public Electromagnetism
 import QuickCheck
 import Data.List

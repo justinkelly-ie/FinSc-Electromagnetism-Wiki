@@ -15,7 +15,7 @@ import QuickCheck
 import Stage0.Multiset
 import Stage0.BoxInt
 import Stage0.Pixel
-import Stage1.VexelMaxel
+import Stage1.Carrier.Maxel
 import public Electromagnetism
 
 %default total

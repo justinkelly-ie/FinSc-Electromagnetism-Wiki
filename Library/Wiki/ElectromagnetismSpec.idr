@@ -1,7 +1,6 @@
 module Wiki.ElectromagnetismSpec
 
 import Stage0.BoxInt
-import Stage1.VexelMaxel
 import Stage0.Multiset
 import public Electromagnetism
 import QuickCheck
