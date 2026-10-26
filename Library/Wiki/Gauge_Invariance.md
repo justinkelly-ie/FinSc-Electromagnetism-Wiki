@@ -15,7 +15,7 @@ import QuickCheck
 import Stage0.Multiset
 import Stage0.BoxInt
 import Stage0.Pixel
-import Stage1.Carrier.Maxel
+import Stage1.Basis.Coordinate
 import public Electromagnetism
 
 %default total
@@ -42,7 +42,7 @@ prop_vacuumGaugeIsometry : Property
 prop_vacuumGaugeIsometry = property (
   let emptyOp : VectorPotential
       emptyOp = vacuumVectorPotential
-  in emptyOp == MkMaxel [])
+  in emptyOp == emptyCellMultiset)
 
 ||| Audits vacuum gauge isometry property.
 public export

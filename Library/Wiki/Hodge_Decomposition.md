@@ -15,7 +15,7 @@ import QuickCheck
 import Stage0.Multiset
 import Stage0.BoxInt
 import Stage0.Pixel
-import Stage1.Carrier.Maxel
+import Stage1.Basis.Coordinate
 import public Electromagnetism
 
 %default total
@@ -45,7 +45,7 @@ prop_hodgeVacuumOrthogonality = property (
   let eField = vacuumVectorPotential
       faces = []
       bField = computeMagneticField faces eField
-  in bField == MkMaxel [])
+  in bField == emptyCellMultiset)
 
 ||| Audits Hodge vacuum field orthogonality property.
 public export
