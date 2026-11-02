@@ -44,7 +44,7 @@ prop_vacuumLaplacianIsZero = property (
   let edges = [(MkUnixel 1, MkUnixel 2)]
       phi = vacuumElectricPotential
       lap = computePoissonLaplacian edges phi
-  in lap == MkVexel [])
+  in lap == emptyVexel)
 
 ||| Audits Poisson equation vacuum Laplacian property.
 public export
