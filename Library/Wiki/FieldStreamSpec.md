@@ -68,12 +68,25 @@ prop_poyntingAccumulation =
   in
     pixels accMaxel == [] && boxIsZero energy
 
+||| Property 3: Deforested Poynting Flux Stream Contraction
+public export
+prop_poyntingFluxContraction : Bool
+prop_poyntingFluxContraction =
+  let eField = singletonCell (mkPixel 1 0) (intToBoxInt 3) <+> singletonCell (mkPixel 2 0) (intToBoxInt 4)
+      bField = singletonCell (mkPixel 2 3) (intToBoxInt 5) <+> singletonCell (mkPixel 3 1) (intToBoxInt 6)
+      sVec = computePoyntingVector eField bField
+      sx = lookupCellMultiset (mkPixel 1 0) sVec
+      sy = lookupCellMultiset (mkPixel 2 0) sVec
+      sz = lookupCellMultiset (mkPixel 3 0) sVec
+  in sx == intToBoxInt 15 && sy == intToBoxInt 24 && sz == intToBoxInt 0
+
 ||| QuickCheck / Direct Suite Execution for Field Stream Spec
 public export
 auditFieldStreamProof : IO Bool
 auditFieldStreamProof = do
   let p1 = prop_poyntingStreamEquivalence
   let p2 = prop_poyntingAccumulation
+  let p3 = prop_poyntingFluxContraction
   let streamSum = fusedGaugeSessionStream hyperbolicGohFuelModel [(50, 50), (10, 10)]
-  pure (p1 && p2 && streamSum == 120)
+  pure (p1 && p2 && p3 && streamSum == 120)
 ```
