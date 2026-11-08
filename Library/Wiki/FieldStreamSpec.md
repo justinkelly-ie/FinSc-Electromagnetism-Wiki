@@ -80,6 +80,33 @@ prop_poyntingFluxContraction =
       sz = lookupCellMultiset (mkPixel 3 0) sVec
   in sx == intToBoxInt 15 && sy == intToBoxInt 24 && sz == intToBoxInt 0
 
+||| Property 4: Concurrent Dual-Stream Poynting Flux
+public export
+prop_dualStreamPoynting : Bool
+prop_dualStreamPoynting =
+  let eField = singletonCell (mkPixel 1 0) (intToBoxInt 3) <+> singletonCell (mkPixel 2 0) (intToBoxInt 4)
+      bField = singletonCell (mkPixel 2 3) (intToBoxInt 5) <+> singletonCell (mkPixel 3 1) (intToBoxInt 6)
+      eStrm = stream [eField]
+      bStrm = stream [bField]
+      sStrm = streamPoyntingDualStream eStrm bStrm
+      sVecList = runFueledStream (limit 10) sStrm
+  in case sVecList of
+       [sVec] =>
+         lookupCellMultiset (mkPixel 1 0) sVec == intToBoxInt 15 &&
+         lookupCellMultiset (mkPixel 2 0) sVec == intToBoxInt 24
+       _ => False
+
+||| Property 5: Dynamic Radiated Photon Stream from Maxwell State
+public export
+prop_radiatedPhotonStream : Bool
+prop_radiatedPhotonStream =
+  let eField = singletonCell (mkPixel 1 0) (intToBoxInt 3)
+      bField = singletonCell (mkPixel 2 0) (intToBoxInt 4)
+      st = makeMaxwellState eField bField neutral neutral
+      photons = streamRadiatedPhotonsFromMaxwell (stream [st])
+      totE = fusedComputePhotonStreamEnergyNatDirect 10 photons
+  in totE == intToBoxInt 7
+
 ||| QuickCheck / Direct Suite Execution for Field Stream Spec
 public export
 auditFieldStreamProof : IO Bool
@@ -87,6 +114,8 @@ auditFieldStreamProof = do
   let p1 = prop_poyntingStreamEquivalence
   let p2 = prop_poyntingAccumulation
   let p3 = prop_poyntingFluxContraction
+  let p4 = prop_dualStreamPoynting
+  let p5 = prop_radiatedPhotonStream
   let streamSum = fusedGaugeSessionStream hyperbolicGohFuelModel [(50, 50), (10, 10)]
-  pure (p1 && p2 && p3 && streamSum == 120)
+  pure (p1 && p2 && p3 && p4 && p5 && streamSum == 120)
 ```
