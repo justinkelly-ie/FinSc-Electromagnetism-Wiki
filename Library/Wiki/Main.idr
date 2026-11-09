@@ -9,6 +9,7 @@ import Wiki.Hodge_Decomposition
 import Wiki.Maxwell_Equations
 import Wiki.Photon_Dynamics
 import Stage1.Reflect.Auditor.EM
+import Stage1.EM.MinkowskiFaraday
 import Stage0.TransferMatrix
 import Language.Reflection
 import System
@@ -56,7 +57,13 @@ main = do
   if tmmPass
      then putStrLn "   -> PASS: 2x2 companion transfer matrix recurrence & Poynting flux verified."
      else putStrLn "   -> FAIL: Photonic transfer matrix check failed."
-  if s1 && s2 && s3 && w1 && w2 && w3 && w4 && w5 && tmmPass
+  putStrLn ""
+  putStrLn "--- PART 6: 3D MINKOWSKI RATIONAL LORENTZ FARADAY TRANSPORT (WILDBERGER) ---"
+  let emLorentzPass = auditMinkowskiEMFieldTransportProof
+  if emLorentzPass
+     then putStrLn "   -> PASS: Faraday (Er, Es, Bz) Lorentz boost S' = N(α)² S & matrix sandwich verified."
+     else putStrLn "   -> FAIL: Faraday Lorentz transport check failed."
+  if s1 && s2 && s3 && w1 && w2 && w3 && w4 && w5 && tmmPass && emLorentzPass
      then do
        putStrLn ""
        putStrLn "=========================================================================="

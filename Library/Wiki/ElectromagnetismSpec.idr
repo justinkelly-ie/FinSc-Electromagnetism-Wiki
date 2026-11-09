@@ -47,6 +47,11 @@ prop_multisetFaradayEMFConservation =
       emf = computeMultisetFaradayEMF potT1 potT2 loop (intToBoxInt 1)
   in emf == intToBoxInt (-4)
 
+||| Property: 3D Minkowski Faraday field Lorentz transport preserves scalar invariant S' = N(α)² S.
+public export
+prop_minkowskiFaradayLorentzInvariance : Bool
+prop_minkowskiFaradayLorentzInvariance = auditMinkowskiEMFieldTransportProof
+
 ------------------------------------------------------------------------
 -- 2. SPECS TEST SUITE RUNNER
 ------------------------------------------------------------------------
@@ -61,6 +66,7 @@ runElectromagnetismSpecs = do
   let p5 = prop_vacuumMaxwellEnergyMinimization
   let p6 = prop_multisetFaradayEMFConservation
   let p7 = Stage1.EM.Calculus.auditElectricFieldStreamEquivalenceProof
+  let p8 = prop_minkowskiFaradayLorentzInvariance
   putStrLn $ "   -> Checking Constant Potential Zero Field: " ++ (if p1 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking U(1) Gauge Invariance (B(A + d0 chi) == B(A)): " ++ (if p2 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Gauss's Law for Magnetism (div B == 0): " ++ (if p3 then "PASSED" else "FAILED")
@@ -68,6 +74,7 @@ runElectromagnetismSpecs = do
   putStrLn $ "   -> Checking Vacuum Maxwell Energy Minimization: " ++ (if p5 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Pure Multiset Faraday EMF Induction: " ++ (if p6 then "PASSED" else "FAILED")
   putStrLn $ "   -> Checking Deforested Electric Field Stream Equivalence: " ++ (if p7 then "PASSED" else "FAILED")
-  pure (p1 && p2 && p3 && p4 && p5 && p6 && p7)
+  putStrLn $ "   -> Checking 3D Minkowski Faraday Lorentz Invariance (S' = N(α)² S): " ++ (if p8 then "PASSED" else "FAILED")
+  pure (p1 && p2 && p3 && p4 && p5 && p6 && p7 && p8)
 
 
