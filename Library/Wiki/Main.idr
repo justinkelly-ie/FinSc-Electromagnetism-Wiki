@@ -26,6 +26,9 @@ auditInvariant False = fail "Compile-time invariant audit failed!"
 0 auditEMDecNilpotencyWitness : Stage1.Reflect.Auditor.EM.auditEMDecNilpotencyProofExport = True
 auditEMDecNilpotencyWitness = Refl
 
+0 auditMinkowskiFaradayTransportWitness : Stage1.EM.MinkowskiFaraday.auditMinkowskiEMFieldTransportProof = True
+auditMinkowskiFaradayTransportWitness = Stage1.EM.MinkowskiFaraday.prfAuditMinkowskiEMFieldTransport
+
 ------------------------------------------------------------------------
 -- MAIN VERIFICATION SUITE EXECUTABLE
 ------------------------------------------------------------------------
