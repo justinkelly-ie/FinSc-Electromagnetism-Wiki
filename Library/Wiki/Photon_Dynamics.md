@@ -12,7 +12,7 @@ This module documents free electromagnetic radiation, photon propagation along *
 module Wiki.Photon_Dynamics
 
 import QuickCheck
-import Core
+import MetricSubstrate
 import Geometry
 import Electromagnetism
 import Stage1.Order.Preorder
